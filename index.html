@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Школьные новости | Октябрь 2023</title>
+    <title>The Weekly Proton Times | Главная</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #0022bb;
-            --primary-light: #4895ef;
+            --primary-light: #ef48ba;
             --secondary: #05006b;
             --dark: #000000;
             --light: #f8f9fa;
@@ -37,7 +37,6 @@
             background-color: var(--light);
         }
         
-        /* Header */
         header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: var(--white);
@@ -177,7 +176,6 @@
             color: var(--white);
         }
         
-        /* Featured section */
         .featured {
             grid-column: 1 / -1;
             display: grid;
@@ -254,7 +252,6 @@
             color: var(--white);
         }
         
-        /* Events section */
         .section-title {
             font-size: 1.8rem;
             font-weight: 700;
@@ -370,7 +367,6 @@
             font-size: 0.9rem;
         }
         
-        /* Responsive */
         @media (max-width: 992px) {
             .featured {
                 grid-template-columns: 1fr;
@@ -536,11 +532,9 @@
         </div>
         <p class="subtitle">Обновление каждую неделю...</p>
     </div>
-    
+
     <script>
-        // After animation completes, you can redirect or load content
         setTimeout(() => {
-            // window.location.href = "main-page.html"; // Uncomment to redirect
         }, 3000);
     </script>
     
@@ -624,7 +618,7 @@
     </div>
     
     <footer>
-        <div class="footer-logo">Школьные новости</div>
+        <div class="footer-logo">The Weekly Proton Times</div>
         <div class="footer-links">
             <a href="#" class="footer-link">Главная</a>
             <a href="#" class="footer-link">Архив</a>
@@ -647,7 +641,6 @@
     </button>
 
     <script>
-        // Показываем/скрываем кнопку при прокрутке
         window.addEventListener('scroll', function() {
             var backToTopButton = document.querySelector('.back-to-top');
             if (window.pageYOffset > 300) {
@@ -657,7 +650,6 @@
             }
         });
         
-        // Плавная прокрутка вверх
         function scrollToTop() {
             window.scrollTo({
                 top: 0,
