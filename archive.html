@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Weekly Proton Times | Главная</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0022bb;
+            --primary-light: #4895ef;
+            --secondary: #05006b;
+            --dark: #000000;
+            --light: #f8f9fa;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --gray: #6c757d;
+            --white: #ffffff;
+            
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+        
+        /* Main content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+        
+        .card-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-date {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--white);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--dark);
+        }
+        
+        .card-text {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            background: var(--light);
+            color: var(--dark);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tag.primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+        
+        .tag.warning {
+            background: var(--warning);
+            color: var(--white);
+        }
+        
+        .tag.success {
+            background: var(--success);
+            color: var(--white);
+        }
+        
+        .featured {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .featured-image {
+            min-height: 300px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .featured-content {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .featured-date {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .featured-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+        
+        .featured-text {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .event-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .event-date {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .event-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .event-desc {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-link {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+        
+        .footer-link:hover {
+            opacity: 1;
+            color: var(--primary-light);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: var(--white);
+            transition: var(--transition);
+        }
+        
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 992px) {
+            .featured {
+                grid-template-columns: 1fr;
+            }
+            
+            .featured-image {
+                min-height: 200px;
+                order: -1;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            
+            .card-title {
+                font-size: 1.2rem;
+            }
+            
+            .featured-title {
+                font-size: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            header {
+                padding: 1.5rem 1rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .subtitle {
+                font-size: 0.9rem;
+            }
+            
+            .btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        .loading-container {
+            font-family: 'Times New Roman', serif;
+            text-align: center;
+            margin-top: 25%;
+            margin-bottom: 25%;
+        }
+        
+        .title {
+            font-family: 'Times New Roman', serif;
+            font-size: 4rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .title-word {
+            font-family: 'Times New Roman', serif;
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            animation: fadeIn 0.8s forwards;
+        }
+        
+        .title-word:nth-child(1) { animation-delay: 0.2s; }
+        .title-word:nth-child(2) { animation-delay: 0.6s; }
+        .title-word:nth-child(3) { animation-delay: 1.0s; }
+        
+        @keyframes fadeIn {
+            to {
+                font-family: 'Times New Roman', serif;
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+        
+        .subtitle {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.2rem;
+            opacity: 0;
+            animation: fadeInSubtitle 1s forwards;
+            animation-delay: 1.8s;
+        }
+        
+        @keyframes fadeInSubtitle {
+            to {
+                opacity: 0.7;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .title {
+                margin-top: 50%;
+                margin-bottom: 41%;
+                font-family: 'Times New Roman', serif;
+                font-size: 2.5rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: #000000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            border: none;
+        }
+        
+        .back-to-top.visible {
+            opacity: 0.8;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            opacity: 1;
+            background-color: #000000;
+            transform: translateY(-3px);
+        }
+        
+        .arrow-img {
+            width: 60%;
+            height: 60%;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        .back-tab {
+            position: fixed;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 100px;
+            background-color: #000;
+            border-top-right-radius: 50px;
+            border-bottom-right-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .back-tab:hover {
+            width: 70px;
+            height: 120px;
+        }
+        
+        .arrow {
+            width: 30px;
+            height: 30px;
+            border-left: 3px solid #fff;
+            border-bottom: 3px solid #fff;
+            transform: rotate(45deg);
+            margin-left: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-tab:hover .arrow {
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+        }
+        
+        /* Анимация пульсации при загрузке */
+        @keyframes pulse {
+            0% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-50%) scale(1.1); }
+            100% { transform: translateY(-50%) scale(1); }
+        }
+        
+        .back-tab {
+            animation: pulse 2s ease-in-out 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <div class="title">
+            <span class="title-word">The</span>
+            <span class="title-word">Weekly</span>
+            <span class="title-word">Proton</span>
+            <span class="title-word">Times</span>
+        </div>
+        <p class="subtitle">Архив новостей...</p>
+    </div>
+
+    <div class="back-tab" onclick="window.history.back()">
+        <div class="arrow"></div>
+    </div>
+
+    <script>
+        setTimeout(() => {
+        }, 3000);
+    </script>
+    
+    <div class="container">
+        <h2 class="section-title">Июнь</h2>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-image" style="background-image: url('https://путешествуем.рф/media/images/zaglavnaya_Alt.format-webp.max-2000x2000.jpegquality-80.webp')"></div>
+                <div class="card-content">
+                    <span class="card-date">28 июня</span>
+                    <h3 class="card-title">Лето - время поездок</h3>
+                    <p class="card-text">И в честь этого мы опубликовали список мест куда точно надо съездить этим летом!</p>
+                    <div>
+                        <span class="tag success">Лето</span>
+                        <span class="tag">Праздник</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-image" style="background-image: url('https://optim.tildacdn.pub/tild3230-6463-4361-b539-366463353630/-/format/webp/photo_2025-06-29_200.jpeg.webp')"></div>
+                <div class="card-content">
+                    <span class="card-date">29-2 мая/июня</span>
+                    <h3 class="card-title">Экскурсия в Санкт-Петербург</h3>
+                    <p class="card-text">День первый. 21 мая. 6:41 утра. Прибытие на Московский вокзал. Город встретил прекрасной погодой. Завтрак.</p>
+                    <div>
+                        <span class="tag primary">Главное</span>
+                        <span class="tag">Экскурсия</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Май</h2>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-image" style="background-image: url('https://optim.tildacdn.pub/tild6136-6431-4938-b438-393361386532/-/format/webp/__2025-06-29__201736.png.webp')"></div>
+                <div class="card-content">
+                    <span style="background: linear-gradient(to right, rgb(251, 27, 255), rgb(255, 42, 42));" class="card-date">27 мая</span>
+                    <h3 class="card-title">КРАСИВАЯ МОСКВА</h3>
+                    <p class="card-text">Каждые каникулы, как и обещали, будем выкладывать выпуски проекта «Красивая Москва».</p>
+                    <div>
+                        <span class="tag warning">Событие</span>
+                        <span class="tag">Учёба</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image" style="background-image: url('https://optim.tildacdn.pub/tild6336-3734-4237-a462-666364373138/-/format/webp/photo_2025-06-30_142.jpeg.webp')"></div>
+                <div class="card-content">
+                    <span class="card-date">20 мая</span>
+                    <h3 class="card-title">Последняя линейка</h3>
+                    <p class="card-text">Вчера, девятнадцатого мая, прошла последняя линейка в этом учебном году!</p>
+                    <div>
+                        <span class="tag warning">Событие</span>
+                        <span class="tag">Учёба</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image" style="background-image: url('https://optim.tildacdn.pub/tild3035-6561-4739-a633-363432396661/-/format/webp/photo_2025-06-30_165.jpeg.webp')"></div>
+                <div class="card-content">
+                    <span class="card-date">9 Мая</span>
+                    <h3 class="card-title">9 Мая — День Победы</h3>
+                    <p class="card-text">Сегодня мы вспоминаем тех, кто сражался за мирное небо над нашими головами.</p>
+                    <div>
+                        <span class="tag warning">Событие</span>
+                        <span class="tag">Учёба</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image" style="background-image: url('https://optim.tildacdn.pub/tild3035-6561-4739-a633-363432396661/-/format/webp/photo_2025-06-30_165.jpeg.webp')"></div>
+                <div class="card-content">
+                    <span class="card-date">5 Мая</span>
+                    <h3 class="card-title">Разговоры о важном</h3>
+                    <p class="card-text">9 мая – это не просто дата в календаре. Это день памяти, гордости и благодарности.</p>
+                    <div>
+                        <span class="tag warning">Событие</span>
+                        <span class="tag">Учёба</span>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-logo">The Weekly Proton Times</div>
+        <div class="footer-links">
+            <a href="#" class="footer-link">Главная</a>
+            <a href="archive.html" class="footer-link">Архив</a>
+            <a href="about.html" class="footer-link">О проекте</a>
+            <a href="#" class="footer-link">Контакты</a>
+        </div>
+        <div class="social-links">
+            <a href="#" class="social-link">VK</a>
+            <a href="#" class="social-link">TG</a>
+            <a href="#" class="social-link">DZ</a>
+        </div>
+        <p class="copyright">© 2025 The Weekly Proton Times. Все права защищены.</p>
+    </footer>
+
+    <button class="back-to-top" onclick="scrollToTop()">
+        <img src="https://grizly.club/uploads/posts/2023-08/1691487060_grizly-club-p-kartinki-strelochka-belaya-bez-fona-56.png" 
+             alt="Вверх" 
+             class="arrow-img">
+    </button>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            var backToTopButton = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+
+    <script>
+        const backTab = document.querySelector('.back-tab');
+        
+        backTab.addEventListener('click', function() {
+            this.style.transform = 'translateY(-50%) scale(0.9)';
+            setTimeout(() => {
+                this.style.transform = 'translateY(-50%) scale(1)';
+            }, 200);
+        });
+    </script>
+</body>
+</html>
