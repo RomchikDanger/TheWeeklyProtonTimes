@@ -37,42 +37,93 @@
             background-color: var(--light);
         }
         
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: var(--white);
-            padding: 2rem 1.5rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        header::after {
-            content: '';
-            position: absolute;
-            bottom: -50px;
-            left: -50px;
-            width: 150px;
-            height: 150px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-        }
-        
-        header::before {
-            content: '';
-            position: absolute;
-            top: -30px;
-            right: -30px;
-            width: 100px;
-            height: 100px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-        }
-        
-        .header-content {
-            position: relative;
-            z-index: 2;
+        .header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
             max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 120px; /* Сильно закругленные углы */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            height: 45px; /* Немного увеличил высоту */
+            display: flex;
+            align-items: center;
+            padding: 0 25px;
+        }
+
+        /* Навигация на всю ширину */
+        .nav {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .nav-link {
+            color: #555;
+            text-decoration: none;
+            font-weight: 300;
+            font-size: 0.95rem;
+            padding: 8px 12px;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+            flex: 1;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            color: #cb7eff;
+            background-color: rgba(203, 126, 255, 0.1);
+        }
+
+        /* Активный пункт меню */
+        .nav-link.active {
+            color: #cb7eff;
+            font-weight: 500;
+        }
+
+        /* Основной контент */
+        .content {
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .header {
+                width: calc(100% - 20px);
+                height: 50px;
+                padding: 0 15px;
+                border-radius: 60px;
+            }
+
+            .nav {
+                overflow-x: auto;
+                padding-bottom: 5px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .nav-link {
+                font-size: 0.85rem;
+                padding: 6px 8px;
+                min-width: max-content;
+            }
+
+            /* Скрываем scrollbar в Firefox */
+            .nav {
+                scrollbar-width: none;
+            }
+            
+            /* Скрываем scrollbar в Chrome/Safari */
+            .nav::-webkit-scrollbar {
+                display: none;
+            }
         }
         
         h1 {
