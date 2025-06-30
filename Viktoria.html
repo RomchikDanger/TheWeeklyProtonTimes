@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOVA - Первый ИИ-ведущий новостей</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6e45e2;
+            --primary-light: #9c7bff;
+            --primary-dark: #4a2dbb;
+            --secondary: #ff6b6b;
+            --dark: #1a1a2e;
+            --darker: #0f0f1a;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --white: #ffffff;
+            
+            --border-radius: 12px;
+            --border-radius-lg: 24px;
+            --shadow: 0 8px 30px rgba(0,0,0,0.12);
+            --shadow-lg: 0 15px 50px rgba(0,0,0,0.2);
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --transition-fast: all 0.2s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: var(--light);
+            background-color: var(--darker);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        /* Параллакс секции */
+        .parallax {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+            transform: translateZ(0);
+            will-change: transform;
+        }
+        
+        .parallax-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 800px;
+            background-color: #23233786;
+            border-radius: 120px; /* Сильно закругленные углы */
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            height: 45px; /* Немного увеличил высоту */
+            display: flex;
+            align-items: center;
+            padding: 0 25px;
+            transition: var(--transition);
+        }
+
+        .header.scrolled {
+            top: 10px;
+            height: 40px;
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+            background-color: #232337d0;
+        }
+
+        /* Навигация на всю ширину */
+        .nav {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .nav-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 300;
+            font-size: 0.95rem;
+            padding: 8px 12px;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+            flex: 1;
+            text-align: center;
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-light);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: #cb7eff;
+            background-color: rgba(203, 126, 255, 0.1);
+        }
+
+        .nav-link:hover::before {
+            width: 100%;
+        }
+
+        /* Активный пункт меню */
+        .nav-link.active {
+            color: #cb7eff;
+            font-weight: 500;
+        }
+        
+        /* Герой секция */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            overflow: hidden;
+        }
+        
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.7;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 0 20px;
+            z-index: 2;
+        }
+        
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards 0.3s;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards 0.6s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .hero-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: var(--transition);
+            z-index: -1;
+        }
+        
+        .hero-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .hero-btn:hover::before {
+            left: 100%;
+        }
+        
+        .hero-btn i {
+            margin-left: 10px;
+            transition: var(--transition-fast);
+        }
+        
+        .hero-btn:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* Плавающие частицы */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        /* О секции */
+        .about {
+            padding: 120px 0;
+            background-color: var(--dark);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .about::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--primary-light), transparent 70%);
+            filter: blur(80px);
+            opacity: 0.3;
+            z-index: 0;
+        }
+        
+        .about::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--secondary), transparent 70%);
+            filter: blur(80px);
+            opacity: 0.3;
+            z-index: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(30px);
+            background: linear-gradient(90deg, var(--primary-light), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .section-title.animate {
+            animation: fadeInUp 0.8s forwards;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .section-subtitle.animate {
+            animation: fadeInUp 0.8s forwards 0.3s;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 40px 30px;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(30px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0) 45%,
+                rgba(255,255,255,0.03) 50%,
+                rgba(255,255,255,0) 55%,
+                rgba(255,255,255,0) 100%
+            );
+            transform: rotate(30deg);
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover::before {
+            top: 50%;
+            left: 50%;
+        }
+        
+        .feature-card.animate {
+            animation: fadeInUp 0.8s forwards;
+        }
+        
+        .feature-card:nth-child(1).animate {
+            animation-delay: 0.2s;
+        }
+        
+        .feature-card:nth-child(2).animate {
+            animation-delay: 0.4s;
+        }
+        
+        .feature-card:nth-child(3).animate {
+            animation-delay: 0.6s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-light);
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2);
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover .feature-title {
+            color: var(--primary-light);
+        }
+        
+        .feature-text {
+            color: var(--gray);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+        
+        /* Демо секция */
+        .demo {
+            padding: 120px 0;
+            background-color: var(--darker);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .demo-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .demo-content {
+            flex: 1;
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+        
+        .demo-content.animate {
+            animation: fadeInRight 1s forwards;
+        }
+        
+        .demo-player {
+            flex: 1;
+            position: relative;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            transform: translateX(50px);
+            transition: var(--transition);
+        }
+        
+        .demo-player:hover {
+            transform: translateX(50px) scale(1.02);
+        }
+        
+        .demo-player.animate {
+            animation: fadeInLeft 1s forwards;
+        }
+        
+        .demo-player::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .demo-video {
+            width: 100%;
+            display: block;
+            transition: var(--transition);
+        }
+        
+        .demo-player:hover .demo-video {
+            transform: scale(1.05);
+        }
+        
+        .play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+            transition: var(--transition);
+            box-shadow: 0 0 0 0 rgba(255,255,255,0.7);
+        }
+        
+        .play-btn:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 0 0 15px rgba(255,255,255,0);
+            animation: pulse 1.5s infinite;
+        }
+        
+        .play-btn i {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-left: 5px;
+            transition: var(--transition-fast);
+        }
+        
+        .play-btn:hover i {
+            transform: scale(1.2);
+        }
+        
+        /* Технологии секция */
+        .tech {
+            padding: 120px 0;
+            background-color: var(--dark);
+            position: relative;
+        }
+        
+        .tech-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1639762681057-408e52192e55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2232&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.05;
+            z-index: 0;
+        }
+        
+        .tech-container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .tech-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(30px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tech-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition);
+        }
+        
+        .tech-card:hover::after {
+            transform: scaleX(1);
+        }
+        
+        .tech-card.animate {
+            animation: fadeInUp 0.8s forwards;
+        }
+        
+        .tech-card:nth-child(1).animate {
+            animation-delay: 0.2s;
+        }
+        
+        .tech-card:nth-child(2).animate {
+            animation-delay: 0.4s;
+        }
+        
+        .tech-card:nth-child(3).animate {
+            animation-delay: 0.6s;
+        }
+        
+        .tech-card:nth-child(4).animate {
+            animation-delay: 0.8s;
+        }
+        
+        .tech-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow);
+        }
+        
+        .tech-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(110, 69, 226, 0.1);
+            border-radius: 50%;
+            font-size: 2rem;
+            color: var(--primary-light);
+            transition: var(--transition);
+        }
+        
+        .tech-card:hover .tech-icon {
+            transform: rotate(15deg) scale(1.1);
+            background: rgba(110, 69, 226, 0.2);
+        }
+        
+        .tech-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+        
+        .tech-card:hover .tech-title {
+            color: var(--primary-light);
+        }
+        
+        .tech-text {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        
+        /* Отзывы секция */
+        .testimonials {
+            padding: 120px 0;
+            background-color: var(--darker);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .testimonials::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--primary-light), transparent 70%);
+            filter: blur(80px);
+            opacity: 0.3;
+            z-index: 0;
+        }
+        
+        .testimonials-slider {
+            margin-top: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .testimonials-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .testimonial-card {
+            min-width: 100%;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius-lg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+            position: relative;
+        }
+        
+        .testimonial-card::before {
+            content: '❝';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 5rem;
+            color: var(--primary-light);
+            opacity: 0.1;
+            line-height: 1;
+            font-family: serif;
+        }
+        
+        .testimonial-card::after {
+            content: '❞';
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 5rem;
+            color: var(--primary-light);
+            opacity: 0.1;
+            line-height: 1;
+            font-family: serif;
+        }
+        
+        .testimonial-card.animate {
+            animation: fadeInUp 0.8s forwards;
+        }
+        
+        .testimonial-text {
+            font-size: 1.2rem;
+            font-weight: 300;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .testimonial-text::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            font-size: 4rem;
+            color: var(--primary-light);
+            opacity: 0.3;
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+        
+        .testimonial-card:hover .testimonial-author {
+            transform: translateX(10px);
+        }
+        
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 20px;
+            object-fit: cover;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        
+        .testimonial-card:hover .author-avatar {
+            border-color: var(--primary-light);
+            transform: scale(1.1);
+        }
+        
+        .author-info h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            transition: var(--transition);
+        }
+        
+        .testimonial-card:hover .author-info h4 {
+            color: var(--primary-light);
+        }
+        
+        .author-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 15px;
+        }
+        
+        .slider-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--white);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slider-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: var(--transition);
+        }
+        
+        .slider-btn:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .slider-btn:hover::before {
+            left: 100%;
+        }
+        
+        /* CTA секция */
+        .cta {
+            padding: 120px 0;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.3), transparent 70%);
+            filter: blur(80px);
+            z-index: 0;
+        }
+        
+        .cta::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.2), transparent 70%);
+            filter: blur(80px);
+            z-index: 0;
+        }
+        
+        .cta-container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .cta-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .cta-text {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 2.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        .cta-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .cta-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            transition: var(--transition);
+        }
+        
+        .cta-input:focus {
+            outline: none;
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.3);
+        }
+        
+        .cta-btn {
+            padding: 1rem 2rem;
+            background: var(--dark);
+            color: var(--white);
+            border: none;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: var(--transition);
+        }
+        
+        .cta-btn:hover {
+            background: #000;
+        }
+        
+        .cta-btn:hover::before {
+            left: 100%;
+        }
+        
+        /* Конфити для пасхалки */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        /* Подвал */
+        .footer {
+            background-color: var(--dark);
+            padding: 80px 0 30px;
+            position: relative;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 20px;
+            display: inline-block;
+            position: relative;
+        }
+        
+        .footer-logo::after {
+            content: 'AI';
+            position: absolute;
+            top: -10px;
+            right: -15px;
+            font-size: 1rem;
+            color: var(--primary-light);
+            background: var(--darker);
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        
+        .footer-logo span {
+            color: var(--primary-light);
+        }
+        
+        .footer-text {
+            color: var(--gray);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            color: var(--white);
+            transition: var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: var(--transition);
+        }
+        
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .social-link:hover::before {
+            left: 100%;
+        }
+        
+        .footer-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 0;
+            transition: var(--transition);
+        }
+        
+        .footer-links li::before {
+            content: '→';
+            position: absolute;
+            left: -15px;
+            color: var(--primary-light);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .footer-links li:hover {
+            padding-left: 15px;
+        }
+        
+        .footer-links li:hover::before {
+            opacity: 1;
+            left: 0;
+        }
+        
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-light);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Кнопка "Наверх" */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 1000;
+            border: none;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-5px);
+        }
+        
+        /* Секретная пасхалка */
+        .easter-egg {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 30px;
+            height: 30px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 1001;
+            opacity: 0.3;
+            transition: var(--transition);
+        }
+        
+        .easter-egg:hover {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+        
+        /* Анимации */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255,255,255,0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(255,255,255,0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255,255,255,0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Эффект параллакса */
+        .parallax-element {
+            will-change: transform;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .demo-container {
+                flex-direction: column;
+            }
+            
+            .demo-content, .demo-player {
+                width: 100%;
+            }
+            
+            .section-title {
+                font-size: 2.3rem;
+            }
+            
+            .cta-title {
+                font-size: 2.3rem;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .header {
+                top: 10px;
+                width: calc(100% - 20px);
+                height: 50px;
+                padding: 0 10px;
+                border-radius: 25px;
+            }
+
+            .nav {
+                overflow-x: auto;
+                padding-bottom: 5px;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none; /* Для Firefox */
+            }
+
+            .nav::-webkit-scrollbar {
+                display: none; /* Для Chrome/Safari */
+            }
+
+            .nav-link {
+                font-size: 0.8rem;
+                padding: 6px 8px;
+                min-width: max-content;
+                flex: none;
+                margin: 0 5px;
+            }
+
+            /* Первый и последний элементы для отступов от краев */
+            .nav-link:first-child {
+                margin-left: auto;
+            }
+            
+            .nav-link:last-child {
+                margin-right: auto;
+            }
+        }
+
+        /* Для очень маленьких экранов */
+        @media (max-width: 480px) {
+            .header {
+                height: 45px;
+            }
+
+            .nav-link {
+                font-size: 0.75rem;
+                padding: 5px 6px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .hero-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .feature-card, .tech-card {
+                padding: 25px;
+            }
+            
+            .testimonial-card {
+                padding: 30px;
+            }
+            
+            .testimonial-text {
+                font-size: 1rem;
+            }
+            
+            .cta-title {
+                font-size: 1.8rem;
+            }
+            
+            .cta-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Секретная пасхалка -->
+    <button class="easter-egg" title="Нажми для сюрприза!">🎁</button>
+    
+    <!-- Плавающие частицы -->
+    <div class="particles" id="particles"></div>
+    
+    <header class="header">
+        <nav class="nav">
+            <a href="#" class="nav-link">Новости</a>
+            <a href="#" class="nav-link">Виктория</a>
+            <a href="#" class="nav-link">Красивая Москва</a>
+            <a href="#" class="nav-link">Газета</a>
+            <a href="#" class="nav-link">О нас</a>
+        </nav>
+    </header>
+    
+    <!-- Герой секция -->
+    <section class="hero">
+        <video autoplay muted loop class="hero-video">
+            <source src="104091682_free (online-video-cutter.com).mp4" type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <h1 class="hero-title">Будущее новостей уже здесь</h1>
+            <p class="hero-subtitle">NOVA — первый в мире искусственный интеллект, ведущий новостей с человеческим обаянием и безупречной точностью</p>
+            <a href="#demo" class="hero-btn">Смотреть демо <i class="fas fa-arrow-right"></i></a>
+        </div>
+        
+        <!-- Скрытая пасхалка в герое -->
+        <div class="hidden-message" style="position: absolute; bottom: 20px; right: 20px; opacity: 0.1; font-size: 0.8rem; transition: var(--transition);">
+            Попробуй нажать на подарок в углу экрана!
+        </div>
+    </section>
+    
+    <!-- О проекте -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">Революция в журналистике</h2>
+            <p class="section-subtitle">NOVA сочетает в себе мощь искусственного интеллекта и естественность человеческого общения, создавая новый стандарт вещания</p>
+            
+            <div class="grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Мгновенное обновление</h3>
+                    <p class="feature-text">NOVA анализирует и представляет новости в режиме реального времени, без задержек на подготовку ведущего</p>
+                    <!-- Скрытая пасхалка -->
+                    <div class="hidden-message" style="position: absolute; bottom: 10px; right: 10px; opacity: 0.1; font-size: 0.7rem; transition: var(--transition);">
+                        Ты уже нашел подарок?
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 class="feature-title">Мультиязычность</h3>
+                    <p class="feature-text">Вещание на 47 языках с идеальным произношением и адаптацией культурных особенностей</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3 class="feature-title">Персонализация</h3>
+                    <p class="feature-text">Адаптация стиля подачи под предпочтения конкретной аудитории или даже отдельного зрителя</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Демо -->
+    <section id="demo" class="demo">
+        <div class="container">
+            <h2 class="section-title">Убедитесь сами</h2>
+            <p class="section-subtitle">Посмотрите, как NOVA представляет последние новости с безупречной четкостью и естественностью</p>
+            
+            <div class="demo-container">
+                <div class="demo-content">
+                    <h3 class="feature-title">Живая демонстрация</h3>
+                    <p class="feature-text">NOVA не просто читает текст — он анализирует контекст, выделяет ключевые моменты и расставляет акценты как профессиональный ведущий с многолетним опытом.</p>
+                    <p class="feature-text">Технология эмоционального интеллекта позволяет NOVA адаптировать интонацию и выражение "лица" в зависимости от содержания новости.</p>
+                    <a href="#" class="hero-btn" style="margin-top: 20px;">Запросить полную демонстрацию</a>
+                    
+                    <!-- Скрытая пасхалка -->
+                    <div class="hidden-message" style="position: absolute; bottom: -30px; left: 0; opacity: 0.1; font-size: 0.7rem; transition: var(--transition);">
+                        Продолжай искать...
+                    </div>
+                </div>
+                
+                <div class="demo-player">
+                    <img src="https://images.unsplash.com/photo-1572949645841-094f3a9c4c94?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80" alt="NOVA AI ведущий" class="demo-video">
+                    <button class="play-btn">
+                        <i class="fas fa-play"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Технологии -->
+    <section id="tech" class="tech">
+        <div class="tech-bg"></div>
+        <div class="container tech-container">
+            <h2 class="section-title">Передовые технологии</h2>
+            <p class="section-subtitle">NOVA объединяет последние достижения в области искусственного интеллекта и компьютерной графики</p>
+            
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="tech-title">Глубинное обучение</h3>
+                    <p class="tech-text">Нейросети на базе GPT-5 анализируют и структурируют новостной контент</p>
+                </div>
+                
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="tech-title">Генеративный ИИ</h3>
+                    <p class="tech-text">Реалистичная мимика и жесты создаются в реальном времени</p>
+                </div>
+                
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fas fa-wave-square"></i>
+                    </div>
+                    <h3 class="tech-title">Neural Voice</h3>
+                    <p class="tech-text">Собственная технология синтеза речи с эмоциональной окраской</p>
+                </div>
+                
+                <div class="tech-card">
+                    <div class="tech-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h3 class="tech-title">Облачная платформа</h3>
+                    <p class="tech-text">Масштабируемое решение для любых медиа-компаний</p>
+                    
+                    <!-- Скрытая пасхалка -->
+                    <div class="hidden-message" style="position: absolute; bottom: 10px; right: 10px; opacity: 0.1; font-size: 0.7rem; transition: var(--transition);">
+                        Почти нашел!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Отзывы -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <h2 class="section-title">Что говорят эксперты</h2>
+            <p class="section-subtitle">Мнение профессионалов медиа-индустрии о нашей технологии</p>
+            
+            <div class="testimonials-slider">
+                <div class="testimonials-track">
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">NOVA произвел революцию в нашем новостном канале. Зрители отмечают, что новости стали более информативными и при этом легче воспринимаются. А для нас это еще и значительная экономия ресурсов.</p>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Мария Смирнова" class="author-avatar">
+                            <div class="author-info">
+                                <h4>Мария Смирнова</h4>
+                                <p>Главный редактор, НТК</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slider-controls">
+                    <button class="slider-btn prev-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="slider-btn next-btn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA -->
+    <section id="contact" class="cta">
+        <div class="cta-container">
+            <h2 class="cta-title">Готовы к будущему новостей?</h2>
+            <p class="cta-text">Оставьте заявку, и наш специалист свяжется с вами для презентации возможностей NOVA</p>
+            
+            <form class="cta-form">
+                <input type="email" placeholder="Ваш email" class="cta-input" required>
+                <button type="submit" class="cta-btn">Отправить</button>
+            </form>
+        </div>
+    </section>
+    
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <a href="#" class="footer-logo">NOVA<span>AI</span></a>
+                    <p class="footer-text">Первая в мире платформа искусственного интеллекта для ведения новостей и информационных программ.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link"><i class="fab fa-vk"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3 class="footer-title">Продукт</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Возможности</a></li>
+                        <li><a href="#">Технологии</a></li>
+                        <li><a href="#">Цены</a></li>
+                        <li><a href="#">Демо</a></li>
+                        <li><a href="#">Обновления</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3 class="footer-title">Компания</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">О нас</a></li>
+                        <li><a href="#">Карьера</a></li>
+                        <li><a href="#">Блог</a></li>
+                        <li><a href="#">Партнеры</a></li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3 class="footer-title">Поддержка</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Документация</a></li>
+                        <li><a href="#">API</a></li>
+                        <li><a href="#">Сообщество</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Связаться</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 NOVA AI Technologies. Все права защищены.</p>
+                <!-- Скрытая пасхалка -->
+                <p class="hidden-message" style="opacity: 0.1; font-size: 0.7rem; margin-top: 10px; transition: var(--transition);">
+                    Поздравляю! Ты нашел все пасхалки! 🎉
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Кнопка "Наверх" -->
+    <button class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <script>
+        // Анимации при скролле
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.section-title, .section-subtitle, .feature-card, .tech-card, .testimonial-card, .demo-content, .demo-player, .hidden-message');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (elementPosition < screenPosition) {
+                    element.classList.add('animate');
+                    
+                    // Показываем скрытые сообщения при скролле
+                    if (element.classList.contains('hidden-message')) {
+                        element.style.opacity = '0.3';
+                    }
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+        
+        // Параллакс эффект
+        const parallaxElements = document.querySelectorAll('.parallax-bg');
+        
+        window.addEventListener('scroll', () => {
+            const scrollValue = window.scrollY;
+            
+            parallaxElements.forEach(element => {
+                element.style.transform = `translateY(${scrollValue * 0.5}px)`;
+            });
+            
+            // Показать/скрыть кнопку "Наверх"
+            if (window.scrollY > 300) {
+                document.querySelector('.back-to-top').classList.add('visible');
+            } else {
+                document.querySelector('.back-to-top').classList.remove('visible');
+            }
+            
+            // Изменение шапки при скролле
+            if (window.scrollY > 50) {
+                document.querySelector('.header').classList.add('scrolled');
+            } else {
+                document.querySelector('.header').classList.remove('scrolled');
+            }
+        });
+        
+        // Плавающие частицы
+        const createParticles = () => {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Случайные параметры частицы
+                const size = Math.random() * 5 + 2;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 10 + 10;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+                particle.style.background = `hsl(${Math.random() * 360}, 70%, 60%)`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        };
+        
+        // Слайдер отзывов
+        let currentSlide = 0;
+        const slides = [
+            {
+                text: "NOVA произвел революцию в нашем новостном канале. Зрители отмечают, что новости стали более информативными и при этом легче воспринимаются. А для нас это еще и значительная экономия ресурсов.",
+                name: "Мария Смирнова",
+                position: "Главный редактор, НТК",
+                avatar: "https://randomuser.me/api/portraits/women/65.jpg"
+            },
+            {
+                text: "Мы внедрили NOVA в утренний эфир и получили рост аудитории на 23%. Зрителям нравится, что новости всегда актуальные, а подача — живая и естественная.",
+                name: "Алексей Петров",
+                position: "Директор, МедиаХолдинг",
+                avatar: "https://randomuser.me/api/portraits/men/32.jpg"
+            },
+            {
+                text: "Как технический директор, я оцениваю NOVA не только с точки зрения зрителя, но и как инженер. Архитектура решения впечатляет — стабильная работа 24/7 при минимальных ресурсах.",
+                name: "Дмитрий Иванов",
+                position: "Технический директор, Новостной Альянс",
+                avatar: "https://randomuser.me/api/portraits/men/75.jpg"
+            }
+        ];
+        
+        const track = document.querySelector('.testimonials-track');
+        const updateSlider = () => {
+            const slide = slides[currentSlide];
+            track.innerHTML = `
+                <div class="testimonial-card animate">
+                    <p class="testimonial-text">${slide.text}</p>
+                    <div class="testimonial-author">
+                        <img src="${slide.avatar}" alt="${slide.name}" class="author-avatar">
+                        <div class="author-info">
+                            <h4>${slide.name}</h4>
+                            <p>${slide.position}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        };
+        
+        document.querySelector('.next-btn').addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlider();
+        });
+        
+        document.querySelector('.prev-btn').addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlider();
+        });
+        
+        // Пасхалка с конфетти
+        const createConfetti = () => {
+            const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'];
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                
+                const size = Math.random() * 10 + 5;
+                const posX = Math.random() * window.innerWidth;
+                const duration = Math.random() * 3 + 2;
+                const delay = Math.random() * 2;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.left = `${posX}px`;
+                confetti.style.background = color;
+                confetti.style.animation = `confetti-fall ${duration}s linear ${delay}s forwards`;
+                
+                document.body.appendChild(confetti);
+                
+                // Удаляем конфетти после анимации
+                setTimeout(() => {
+                    confetti.remove();
+                }, (duration + delay) * 1000);
+            }
+            
+            // Показываем все скрытые сообщения
+            document.querySelectorAll('.hidden-message').forEach(msg => {
+                msg.style.opacity = '1';
+                msg.style.color = '#ff0';
+                msg.style.textShadow = '0 0 5px #000';
+            });
+        };
+        
+        document.querySelector('.easter-egg').addEventListener('click', createConfetti);
+        
+        // Инициализация
+        createParticles();
+        updateSlider();
+        animateOnScroll();
+    </script>
+</body>
+</html>
