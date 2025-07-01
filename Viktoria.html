@@ -979,54 +979,45 @@
             z-index: 9999;
         }
         
-        /* Подвал */
-        .footer {
-            background-color: var(--dark);
-            padding: 80px 0 30px;
-            position: relative;
-        }
-        
-        .footer-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 60px;
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 3rem 1.5rem;
+            text-align: center;
         }
         
         .footer-logo {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
+            margin-bottom: 1rem;
             color: var(--white);
-            margin-bottom: 20px;
-            display: inline-block;
-            position: relative;
         }
         
-        .footer-logo::after {
-            content: 'AI';
-            position: absolute;
-            top: -10px;
-            right: -15px;
-            font-size: 1rem;
-            color: var(--primary-light);
-            background: var(--darker);
-            padding: 2px 5px;
-            border-radius: 4px;
-        }
-        
-        .footer-logo span {
-            color: var(--primary-light);
-        }
-        
-        .footer-text {
-            color: var(--gray);
-            margin-bottom: 20px;
-            line-height: 1.7;
-        }
-        
-        .footer-social {
+        .footer-links {
             display: flex;
-            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-link {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+        
+        .footer-link:hover {
+            opacity: 1;
+            color: var(--primary-light);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
         
         .social-link {
@@ -1035,22 +1026,9 @@
             justify-content: center;
             width: 40px;
             height: 40px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255,255,255,0.1);
             border-radius: 50%;
             color: var(--white);
-            transition: var(--transition-fast);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .social-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
             transition: var(--transition);
         }
         
@@ -1059,61 +1037,8 @@
             transform: translateY(-3px);
         }
         
-        .social-link:hover::before {
-            left: 100%;
-        }
-        
-        .footer-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: var(--white);
-        }
-        
-        .footer-links {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 12px;
-            position: relative;
-            padding-left: 0;
-            transition: var(--transition);
-        }
-        
-        .footer-links li::before {
-            content: '→';
-            position: absolute;
-            left: -15px;
-            color: var(--primary-light);
-            opacity: 0;
-            transition: var(--transition);
-        }
-        
-        .footer-links li:hover {
-            padding-left: 15px;
-        }
-        
-        .footer-links li:hover::before {
-            opacity: 1;
-            left: 0;
-        }
-        
-        .footer-links a {
-            color: var(--gray);
-            text-decoration: none;
-            transition: var(--transition-fast);
-        }
-        
-        .footer-links a:hover {
-            color: var(--primary-light);
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--gray);
+        .copyright {
+            opacity: 0.7;
             font-size: 0.9rem;
         }
         
@@ -1385,7 +1310,7 @@
         </div>
         
         <!-- Скрытая пасхалка в герое -->
-        <div class="hidden-message" style="position: absolute; bottom: 20px; right: 20px; opacity: 0.1; font-size: 0.8rem; transition: var(--transition);">
+        <div class="hidden-message" style="position: absolute; bottom: 20px; right: 20px; opacity: 0.1; font-size: 0.4rem; transition: var(--transition);">
             Попробуй нажать на подарок в углу экрана!
         </div>
     </section>
@@ -1552,72 +1477,27 @@
         </div>
     </section>
     
-    <!-- Подвал -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-container">
-                <div class="footer-col">
-                    <a href="#" class="footer-logo">NOVA<span>AI</span></a>
-                    <p class="footer-text">Первая в мире платформа искусственного интеллекта для ведения новостей и информационных программ.</p>
-                    <div class="footer-social">
-                        <a href="#" class="social-link"><i class="fab fa-vk"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                    </div>
-                </div>
-                
-                <div class="footer-col">
-                    <h3 class="footer-title">Продукт</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Возможности</a></li>
-                        <li><a href="#">Технологии</a></li>
-                        <li><a href="#">Цены</a></li>
-                        <li><a href="#">Демо</a></li>
-                        <li><a href="#">Обновления</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-col">
-                    <h3 class="footer-title">Компания</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">О нас</a></li>
-                        <li><a href="#">Карьера</a></li>
-                        <li><a href="#">Блог</a></li>
-                        <li><a href="#">Партнеры</a></li>
-                        <li><a href="#">Контакты</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-col">
-                    <h3 class="footer-title">Поддержка</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Документация</a></li>
-                        <li><a href="#">API</a></li>
-                        <li><a href="#">Сообщество</a></li>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Связаться</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 NOVA AI Technologies. Все права защищены.</p>
-                <!-- Скрытая пасхалка -->
-                <p class="hidden-message" style="opacity: 0.1; font-size: 0.7rem; margin-top: 10px; transition: var(--transition);">
-                    Поздравляю! Ты нашел все пасхалки! 🎉
-                </p>
-            </div>
+    <footer>
+        <div class="footer-logo">The Weekly Proton Times</div>
+        <div class="footer-links">
+            <a href="#" class="footer-link">Главная</a>
+            <a href="archive.html" class="footer-link">Архив</a>
+            <a href="about.html" class="footer-link">О проекте</a>
+            <a href="#" class="footer-link">Контакты</a>
         </div>
+        <div class="social-links">
+            <a href="#" class="social-link">VK</a>
+            <a href="#" class="social-link">TG</a>
+            <a href="#" class="social-link">DZ</a>
+        </div>
+        <p class="copyright">© 2025 The Weekly Proton Times. Все права защищены.</p>
     </footer>
-    
-    <!-- Кнопка "Наверх" -->
+
     <button class="back-to-top">
         <i class="fas fa-arrow-up"></i>
     </button>
     
     <script>
-        // Анимации при скролле
         const animateOnScroll = () => {
             const elements = document.querySelectorAll('.section-title, .section-subtitle, .feature-card, .tech-card, .testimonial-card, .demo-content, .demo-player, .hidden-message');
             
@@ -1628,7 +1508,6 @@
                 if (elementPosition < screenPosition) {
                     element.classList.add('animate');
                     
-                    // Показываем скрытые сообщения при скролле
                     if (element.classList.contains('hidden-message')) {
                         element.style.opacity = '0.3';
                     }
@@ -1639,7 +1518,6 @@
         window.addEventListener('scroll', animateOnScroll);
         window.addEventListener('load', animateOnScroll);
         
-        // Параллакс эффект
         const parallaxElements = document.querySelectorAll('.parallax-bg');
         
         window.addEventListener('scroll', () => {
@@ -1649,14 +1527,12 @@
                 element.style.transform = `translateY(${scrollValue * 0.5}px)`;
             });
             
-            // Показать/скрыть кнопку "Наверх"
             if (window.scrollY > 300) {
                 document.querySelector('.back-to-top').classList.add('visible');
             } else {
                 document.querySelector('.back-to-top').classList.remove('visible');
             }
             
-            // Изменение шапки при скролле
             if (window.scrollY > 50) {
                 document.querySelector('.header').classList.add('scrolled');
             } else {
@@ -1664,7 +1540,6 @@
             }
         });
         
-        // Плавающие частицы
         const createParticles = () => {
             const particlesContainer = document.getElementById('particles');
             const particleCount = 30;
@@ -1673,7 +1548,6 @@
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
                 
-                // Случайные параметры частицы
                 const size = Math.random() * 5 + 2;
                 const posX = Math.random() * 100;
                 const posY = Math.random() * 100;
@@ -1692,7 +1566,6 @@
             }
         };
         
-        // Слайдер отзывов
         let currentSlide = 0;
         const slides = [
             {
@@ -1742,7 +1615,6 @@
             updateSlider();
         });
         
-        // Пасхалка с конфетти
         const createConfetti = () => {
             const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'];
             
@@ -1764,13 +1636,11 @@
                 
                 document.body.appendChild(confetti);
                 
-                // Удаляем конфетти после анимации
                 setTimeout(() => {
                     confetti.remove();
                 }, (duration + delay) * 1000);
             }
             
-            // Показываем все скрытые сообщения
             document.querySelectorAll('.hidden-message').forEach(msg => {
                 msg.style.opacity = '1';
                 msg.style.color = '#ff0';
@@ -1780,7 +1650,6 @@
         
         document.querySelector('.easter-egg').addEventListener('click', createConfetti);
         
-        // Инициализация
         createParticles();
         updateSlider();
         animateOnScroll();
