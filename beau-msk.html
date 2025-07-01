@@ -1,0 +1,2298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Красивая Москва | Неофициальный гид по столице</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary: #5e35b1;
+            --primary-dark: #4527a0;
+            --primary-light: #7e57c2;
+            --secondary: #ff7043;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f5f5f5;
+            --lighter: #ffffff;
+            --gray: #424242;
+            --success: #00c853;
+            --warning: #ffab00;
+            --error: #d50000;
+            
+            --border-radius: 16px;
+            --border-radius-sm: 8px;
+            --shadow: 0 8px 30px rgba(0,0,0,0.12);
+            --shadow-lg: 0 15px 50px rgba(0,0,0,0.2);
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --transition-fast: all 0.2s ease;
+            
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            --gradient-dark: linear-gradient(to bottom right, var(--dark) 0%, var(--darker) 100%);
+        }
+        
+        /* Базовые стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--light);
+            background-color: var(--dark);
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(94, 53, 177, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(255, 112, 67, 0.15) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Кнопки */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(94, 53, 177, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(94, 53, 177, 0.6);
+        }
+        
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.1));
+            opacity: 0;
+            transition: var(--transition-fast);
+        }
+        
+        .btn-primary:hover::after {
+            opacity: 1;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-light);
+            color: var(--primary-light);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(126, 87, 194, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        /* Шапка */
+        .header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 800px;
+            background-color: #23233786;
+            border-radius: 120px; /* Сильно закругленные углы */
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            height: 45px; /* Немного увеличил высоту */
+            display: flex;
+            align-items: center;
+            padding: 0 25px;
+            transition: var(--transition);
+        }
+
+        .header.scrolled {
+            top: 10px;
+            height: 40px;
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+            background-color: #232337d0;
+        }
+
+        /* Навигация на всю ширину */
+        .nav {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .nav-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 300;
+            font-size: 0.95rem;
+            padding: 8px 12px;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+            flex: 1;
+            text-align: center;
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-light);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: #cb7eff;
+            background-color: rgba(203, 126, 255, 0.1);
+        }
+
+        .nav-link:hover::before {
+            width: 100%;
+        }
+
+        /* Активный пункт меню */
+        .nav-link.active {
+            color: #cb7eff;
+            font-weight: 500;
+        }
+        
+        /* Герой-секция */
+        .hero {
+            height: 100vh;
+            min-height: 800px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.4;
+        }
+        
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-title {
+            font-size: 72px;
+            margin-bottom: 20px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s 0.3s forwards;
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            max-width: 600px;
+            margin-bottom: 40px;
+            color: rgba(255,255,255,0.8);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s 0.6s forwards;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s 0.9s forwards;
+        }
+        
+        .hero-scroll {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0;
+            animation: fadeIn 1s 1.5s forwards;
+        }
+        
+        .hero-scroll::after {
+            content: '';
+            display: block;
+            width: 1px;
+            height: 60px;
+            background: rgba(255,255,255,0.3);
+            margin-top: 15px;
+        }
+        
+        /* Секция о проекте */
+        .about {
+            padding: 120px 40px;
+            background: var(--darker);
+            position: relative;
+        }
+        
+        .about::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(94,53,177,0.05)" d="M0,0 L100,0 L100,100 Q50,80 0,100 L0,0 Z"></path></svg>');
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+            background-position: top center;
+            pointer-events: none;
+        }
+        
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+        
+        .section-title {
+            font-size: 48px;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary-light);
+            border-radius: 2px;
+        }
+        
+        .section-subtitle {
+            font-size: 18px;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.6;
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .about-card {
+            background: rgba(30,30,30,0.6);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .about-card:nth-child(1) { animation: fadeInUp 0.8s 0.2s forwards; }
+        .about-card:nth-child(2) { animation: fadeInUp 0.8s 0.4s forwards; }
+        .about-card:nth-child(3) { animation: fadeInUp 0.8s 0.6s forwards; }
+        
+        .about-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(126, 87, 194, 0.3);
+        }
+        
+        .about-card-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        
+        .about-card-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--lighter);
+        }
+        
+        .about-card-text {
+            color: rgba(255,255,255,0.7);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        
+        /* Секция с видео */
+        .videos {
+            padding: 120px 40px;
+            background: var(--dark);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .videos::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(126,87,194,0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+        
+        .videos-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .video-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 20px;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .video-card {
+            background: rgba(30,30,30,0.6);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.05);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .video-card:nth-child(1) { animation: fadeInUp 0.6s 0.1s forwards; }
+        .video-card:nth-child(2) { animation: fadeInUp 0.6s 0.2s forwards; }
+        .video-card:nth-child(3) { animation: fadeInUp 0.6s 0.3s forwards; }
+        .video-card:nth-child(4) { animation: fadeInUp 0.6s 0.4s forwards; }
+        .video-card:nth-child(5) { animation: fadeInUp 0.6s 0.5s forwards; }
+        .video-card:nth-child(6) { animation: fadeInUp 0.6s 0.6s forwards; }
+        
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(126, 87, 194, 0.3);
+        }
+        
+        .video-thumbnail {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        
+        .video-card:hover .video-thumbnail img {
+            transform: scale(1.1);
+        }
+        
+        .video-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .video-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition-fast);
+        }
+        
+        .video-play svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--primary);
+        }
+        
+        .video-card:hover .video-play {
+            opacity: 1;
+        }
+        
+        .video-content {
+            padding: 25px;
+        }
+        
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .video-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .video-desc {
+            color: rgba(255,255,255,0.7);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        
+        .video-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .video-tag {
+            background: rgba(126, 87, 194, 0.1);
+            color: var(--primary-light);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .more-videos {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        /* Секция с маршрутами */
+        .routes {
+            padding: 120px 40px;
+            background: var(--darker);
+            position: relative;
+        }
+        
+        .routes::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,112,67,0.05)" d="M0,100 L100,100 L100,0 Q50,20 0,0 L0,100 Z"></path></svg>');
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+            background-position: bottom center;
+            pointer-events: none;
+        }
+        
+        .route-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+        
+        .route-tab {
+            padding: 10px 25px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition-fast);
+        }
+        
+        .route-tab::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--secondary);
+            transition: var(--transition-fast);
+        }
+        
+        .route-tab:hover, .route-tab.active {
+            color: white;
+        }
+        
+        .route-tab.active::after {
+            width: 100%;
+        }
+        
+        .route-content {
+            display: none;
+        }
+        
+        .route-content.active {
+            display: block;
+            animation: fadeIn 0.6s ease;
+        }
+        
+        .route-map {
+            height: 500px;
+            background: rgba(30,30,30,0.6);
+            border-radius: var(--border-radius);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .route-map img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .route-stops {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .route-stop {
+            background: rgba(30,30,30,0.6);
+            border-radius: var(--border-radius-sm);
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            transition: var(--transition-fast);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .route-stop:hover {
+            background: rgba(50,50,50,0.6);
+            border-color: rgba(255, 112, 67, 0.3);
+        }
+        
+        .route-stop-number {
+            width: 30px;
+            height: 30px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .route-stop-content h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .route-stop-content p {
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        /* Секция с командой */
+        .team {
+            padding: 120px 40px;
+            background: var(--dark);
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .team-member {
+            background: rgba(30,30,30,0.6);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.05);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .team-member:nth-child(1) { animation: fadeInUp 0.6s 0.1s forwards; }
+        .team-member:nth-child(2) { animation: fadeInUp 0.6s 0.2s forwards; }
+        .team-member:nth-child(3) { animation: fadeInUp 0.6s 0.3s forwards; }
+        .team-member:nth-child(4) { animation: fadeInUp 0.6s 0.4s forwards; }
+        
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(126, 87, 194, 0.3);
+        }
+        
+        .team-photo {
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .team-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        
+        .team-member:hover .team-photo img {
+            transform: scale(1.1);
+        }
+        
+        .team-social {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition-fast);
+        }
+        
+        .team-member:hover .team-social {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .team-social a {
+            width: 36px;
+            height: 36px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+        }
+        
+        .team-social a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .team-info {
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .team-name {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+        
+        .team-role {
+            color: var(--primary-light);
+            font-weight: 500;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .team-desc {
+            color: rgba(255,255,255,0.7);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+        
+        /* Секция с отзывами */
+        .testimonials {
+            padding: 120px 40px;
+            background: var(--darker);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .testimonials::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,112,67,0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+        
+        .testimonials::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(126,87,194,0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+        
+        .testimonials-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonial-slider {
+            position: relative;
+            padding: 0 50px;
+        }
+        
+        .testimonial-slide {
+            background: rgba(30,30,30,0.6);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            border: 1px solid rgba(255,255,255,0.05);
+            margin: 0 15px;
+            transition: var(--transition);
+            opacity: 0.5;
+            transform: scale(0.9);
+        }
+        
+        .testimonial-slide.slick-center {
+            opacity: 1;
+            transform: scale(1);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(126, 87, 194, 0.3);
+        }
+        
+        .testimonial-text {
+            font-size: 18px;
+            font-style: italic;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.7;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .testimonial-text::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            font-size: 60px;
+            color: rgba(126, 87, 194, 0.2);
+            font-family: serif;
+            line-height: 1;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .testimonial-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .testimonial-author-info h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .testimonial-author-info p {
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+        }
+        
+        .slick-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(30,30,30,0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+            border: none;
+            color: white;
+            font-size: 20px;
+            transition: var(--transition-fast);
+        }
+        
+        .slick-arrow:hover {
+            background: var(--primary);
+        }
+        
+        .slick-prev {
+            left: 0;
+        }
+        
+        .slick-next {
+            right: 0;
+        }
+        
+        /* Секция CTA */
+        .cta {
+            padding: 120px 40px;
+            background: var(--gradient-dark);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://example.com/pattern.png');
+            opacity: 0.05;
+            pointer-events: none;
+        }
+        
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-title {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+        
+        .cta-text {
+            font-size: 18px;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        
+        .float {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        /* Эффекты при прокрутке */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Модальное окно */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: var(--darker);
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.9);
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            z-index: 2;
+        }
+        
+        .modal-close:hover {
+            background: var(--error);
+            transform: rotate(90deg);
+        }
+        
+        .modal-body {
+            padding: 40px;
+        }
+        
+        .modal-title {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 60px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .hero {
+                min-height: 700px;
+            }
+            
+            .hero-title {
+                font-size: 48px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .section-title {
+                font-size: 36px;
+            }
+            
+            .about-card {
+                padding: 30px;
+            }
+            
+            .route-map {
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 20px;
+            }
+            
+            .header.scrolled {
+                padding: 10px 20px;
+            }
+            
+            .nav {
+                gap: 15px;
+            }
+            
+            .hero {
+                min-height: 600px;
+            }
+            
+            .hero-content {
+                padding: 0 20px;
+            }
+            
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .about, .videos, .routes, .team, .testimonials, .cta {
+                padding: 80px 20px;
+            }
+            
+            .section-title {
+                font-size: 30px;
+            }
+            
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .route-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .route-map {
+                height: 300px;
+            }
+            
+            .cta-title {
+                font-size: 32px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .logo {
+                font-size: 20px;
+            }
+            
+            .logo-icon {
+                width: 25px;
+                height: 25px;
+            }
+            
+            .nav {
+                gap: 10px;
+            }
+            
+            .nav-link {
+                font-size: 14px;
+            }
+            
+            .hero-title {
+                font-size: 28px;
+            }
+            
+            .hero-subtitle {
+                font-size: 16px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 13px;
+            }
+            
+            .about-card-icon {
+                width: 50px;
+                height: 50px;
+                margin-bottom: 15px;
+            }
+            
+            .about-card-title {
+                font-size: 18px;
+            }
+            
+            .team-member {
+                max-width: 350px;
+                margin: 0 auto;
+            }
+            
+            .modal-body {
+                padding: 30px 20px;
+            }
+            
+            .modal-title {
+                font-size: 24px;
+            }
+        }
+        
+        /* Специальные эффекты и пасхалки */
+        .easter-egg {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: var(--transition-fast);
+        }
+        
+        .easter-egg:hover {
+            background: var(--primary);
+            transform: rotate(15deg);
+        }
+        
+        .secret-message {
+            position: fixed;
+            bottom: 70px;
+            left: 20px;
+            background: var(--darker);
+            padding: 15px;
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--shadow);
+            max-width: 250px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition-fast);
+            pointer-events: none;
+            border: 1px solid var(--primary);
+        }
+        
+        .secret-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .cursor-effect {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(126, 87, 194, 0.5);
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: screen;
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            opacity: 0;
+            z-index: 10000;
+            animation: confetti-fall 3s linear forwards;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Анимация логотипа при hover */
+        .logo:hover .logo-icon {
+            animation: bounce 0.5s;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        /* Эффект параллакса */
+        .parallax {
+            transition: transform 0.1s linear;
+        }
+        
+        /* Эффект набора текста */
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid var(--primary);
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary) }
+        }
+        
+        /* Эффект мерцания звёзд */
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+        
+        @keyframes twinkle {
+            from { opacity: 0.2; }
+            to { opacity: 1; }
+        }
+        
+        /* Скрытые элементы */
+        .hidden-feature {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        /* Эффект при активации пасхалки */
+        .party-mode body {
+            animation: partyBg 0.5s infinite;
+        }
+        
+        @keyframes partyBg {
+            0% { background-color: #5e35b1; }
+            25% { background-color: #ff7043; }
+            50% { background-color: #00c853; }
+            75% { background-color: #ffab00; }
+            100% { background-color: #d50000; }
+        }
+
+        /* Стили для секции с фактами */
+        .facts {
+            padding: 120px 40px;
+            background: var(--darker);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .facts::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(94, 53, 177, 0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .facts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .fact-card {
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(126, 87, 194, 0.2);
+            transition: var(--transition);
+        }
+
+        .fact-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(94, 53, 177, 0.3);
+            border-color: var(--primary-light);
+        }
+
+        .fact-number {
+            font-size: 48px;
+            font-weight: 800;
+            color: rgba(126, 87, 194, 0.2);
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+
+        .fact-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--primary-light);
+        }
+
+        .fact-text {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .fact-icon {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            opacity: 0.2;
+            transition: var(--transition);
+        }
+
+        .fact-card:hover .fact-icon {
+            opacity: 0.5;
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        .facts-cta {
+            text-align: center;
+            margin-top: 50px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .fact-link {
+            color: var(--primary-light);
+            text-decoration: underline;
+            transition: var(--transition-fast);
+        }
+
+        .fact-link:hover {
+            color: var(--secondary);
+        }
+
+        /* Анимация для секретного факта */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-5px); }
+            40% { transform: translateX(5px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translateX(5px); }
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .facts {
+                padding: 80px 20px;
+            }
+            
+            .fact-card {
+                padding: 30px;
+            }
+        }
+
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-link {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+        
+        .footer-link:hover {
+            opacity: 1;
+            color: var(--primary-light);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: var(--white);
+            transition: var(--transition);
+        }
+        
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor-effect"></div>
+    
+    <div class="easter-egg" id="easterEgg">?</div>
+    <div class="secret-message" id="secretMessage">
+        Нашли пасхалку! Попробуйте нажать Ctrl+Shift+M для особого режима 😉
+    </div>
+    
+    <div class="hidden-feature" style="top: 100px; right: 50px;" id="hiddenFeature1"></div>
+    <div class="hidden-feature" style="bottom: 200px; left: 30%;" id="hiddenFeature2"></div>
+    
+    <header class="header">
+        <nav class="nav">
+            <a href="archive.html" class="nav-link">Новости</a>
+            <a href="index.html" class="nav-link">Главная</a>
+            <a href="error404.html" class="nav-link">Виктория</a>
+            <a href="error404.html" class="nav-link">Газета</a>
+            <a href="about.html" class="nav-link">О нас</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <video autoplay muted loop class="hero-video">
+            <source src="https://example.com/moscow-hero.mp4" type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <h1 class="hero-title">Открой Москву заново</h1>
+            <p class="hero-subtitle">Нестандартные маршруты, скрытые уголки и самые фотогеничные места столицы в нашем проекте</p>
+            <div class="hero-buttons">
+                <a href="#videos" class="btn btn-primary">Смотреть выпуски</a>
+                <a href="#routes" class="btn btn-outline">Выбрать маршрут</a>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            Листайте вниз
+        </div>
+    </section>
+    
+    <section class="about" id="about">
+        <div class="section-header">
+            <h2 class="section-title">Что такое «Красивая Москва»?</h2>
+            <p class="section-subtitle">Это не просто экскурсии — это новый взгляд на город, который вы думаете, что знаете</p>
+        </div>
+        <div class="about-grid">
+            <div class="about-card">
+                <div class="about-card-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                </div>
+                <h3 class="about-card-title">Неочевидные места</h3>
+                <p class="about-card-text">Мы показываем не только Красную площадь и Воробьёвы горы, но и десятки других потрясающих мест, о которых не пишут в путеводителях.</p>
+            </div>
+            <div class="about-card">
+                <div class="about-card-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                        <path d="M2 10h20"></path>
+                    </svg>
+                </div>
+                <h3 class="about-card-title">Киношная эстетика</h3>
+                <p class="about-card-text">Каждый выпуск снят с любовью к деталям — красивые планы, атмосферная музыка и внимание к мелочам, которые создают настроение.</p>
+            </div>
+            <div class="about-card">
+                <div class="about-card-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                <h3 class="about-card-title">Сообщество</h3>
+                <p class="about-card-text">Присоединяйтесь к зрителям, которые уже открыли для себя новую Москву и делятся своими находками.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Секция с видео -->
+    <section class="videos" id="videos">
+        <div class="videos-container">
+            <div class="section-header">
+                <h2 class="section-title">Последние выпуски</h2>
+                <p class="section-subtitle">Каждые каникулы новый эпизод о красивых местах Москвы</p>
+            </div>
+            <div class="video-filters">
+                <button class="filter-btn">Архитектура</button>
+                <button class="filter-btn">Природа</button>
+                <button class="filter-btn">Панорамы</button>
+                <button class="filter-btn">История</button>
+            </div>
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://cdn.tripster.ru/thumbs2/1dd42b3c-7fef-11ef-840b-b68b4aa9c6f5.1220x600.jpeg" alt="Воробьёвы горы">
+                        <div class="video-badge">Новый</div>
+                        <div class="video-play">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="video-content">
+                        <div class="video-meta">
+                            <span>29 июня 2025</span>
+                            <span>15 мин</span>
+                        </div>
+                        <h3 class="video-title">Воробьёвы горы: секретные тропы и лучшие виды</h3>
+                        <p class="video-desc">Открываем малоизвестные уголки этого популярного места и показываем, где сделать самые эффектные фото.</p>
+                        <div class="video-tags">
+                            <span class="video-tag">Природа</span>
+                            <span class="video-tag">Панорамы</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://cdn.tripster.ru/thumbs2/58be4910-54b5-11ed-81ea-3a9dc191ca34.1220x600.jpeg" alt="Москва-Сити">
+                        <div class="video-play">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="video-content">
+                        <div class="video-meta">
+                            <span>22 июня 2025</span>
+                            <span>18 мин</span>
+                        </div>
+                        <h3 class="video-title">Москва-Сити: съёмка на закате</h3>
+                        <p class="video-desc">Как поймать идеальный свет для фото небоскрёбов и какие ракурсы выглядят наиболее эффектно.</p>
+                        <div class="video-tags">
+                            <span class="video-tag">Архитектура</span>
+                            <span class="video-tag">Фото</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://s3.afisha.ru/mediastorage/d4/7f/b2e52785c72247219a2a5f187fd4.jpg" alt="Коломенское">
+                        <div class="video-play">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="video-content">
+                        <div class="video-meta">
+                            <span>15 июня 2025</span>
+                            <span>22 мин</span>
+                        </div>
+                        <h3 class="video-title">Коломенское: древние храмы и яблоневые сады</h3>
+                        <p class="video-desc">Прогулка по территории музея-заповедника с рассказом об истории этого удивительного места.</p>
+                        <div class="video-tags">
+                            <span class="video-tag">История</span>
+                            <span class="video-tag">Архитектура</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/%D0%A7%D0%B8%D1%81%D1%82%D0%BE%D0%BF%D1%80%D1%83%D0%B4%D0%BD%D1%8B%D0%B9_%D0%B1%D1%83%D0%BB%D1%8C%D0%B2%D0%B0%D1%80._%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0.jpg/1200px-%D0%A7%D0%B8%D1%81%D1%82%D0%BE%D0%BF%D1%80%D1%83%D0%B4%D0%BD%D1%8B%D0%B9_%D0%B1%D1%83%D0%BB%D1%8C%D0%B2%D0%B0%D1%80._%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0.jpg" alt="Чистые пруды">
+                        <div class="video-play">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="video-content">
+                        <div class="video-meta">
+                            <span>8 июня 2025</span>
+                            <span>14 мин</span>
+                        </div>
+                        <h3 class="video-title">Чистые пруды и окрестности</h3>
+                        <p class="video-desc">От старинных особняков до современных арт-объектов — исследуем один из самых атмосферных районов Москвы.</p>
+                        <div class="video-tags">
+                            <span class="video-tag">Прогулки</span>
+                            <span class="video-tag">Архитектура</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://cdn.tripster.ru/thumbs2/0faa55ce-7d0f-11ee-a098-32d57c1420f0.1220x600.jpeg" alt="Парк Зарядье">
+                        <div class="video-play">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="video-content">
+                        <div class="video-meta">
+                            <span>1 июня 2025</span>
+                            <span>17 мин</span>
+                        </div>
+                        <h3 class="video-title">Парк Зарядье: современность и история</h3>
+                        <p class="video-desc">Как архитекторам удалось совместить ультрасовременные решения с историческим контекстом.</p>
+                        <div class="video-tags">
+                            <span class="video-tag">Архитектура</span>
+                            <span class="video-tag">Прогулки</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="video-thumbnail">
+                        <img src="https://cdn.tripster.ru/thumbs2/7da7391c-be31-11ee-8d13-de6201547bb6.1220x600.jpeg" alt="Нескучный сад">
+                        <div class="video-play">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="video-content">
+                        <div class="video-meta">
+                            <span>25 мая 2025</span>
+                            <span>19 мин</span>
+                        </div>
+                        <h3 class="video-title">Нескучный сад: зелёный оазис в центре города</h3>
+                        <p class="video-desc">Исследуем один из самых старых парков Москвы и находим в нём неожиданные уголки.</p>
+                        <div class="video-tags">
+                            <span class="video-tag">Природа</span>
+                            <span class="video-tag">История</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="more-videos">
+                <a href="#" class="btn btn-primary">Все выпуски</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Секция с маршрутами -->
+    <section class="routes" id="routes">
+        <div class="section-header">
+            <h2 class="section-title">Готовые маршруты</h2>
+            <p class="section-subtitle">Спланируйте свою прогулку по нашим тщательно продуманным маршрутам</p>
+        </div>
+        <div class="route-tabs">
+            <div class="route-tab active" data-tab="architecture">Архитектура</div>
+            <div class="route-tab" data-tab="nature">Природа</div>
+            <div class="route-tab" data-tab="photo">Фото-точки</div>
+            <div class="route-tab" data-tab="history">История</div>
+        </div>
+        <div class="route-content active" id="architecture">
+            <div class="route-map">
+                <img src="https://optim.tildacdn.pub/tild3731-6462-4632-b731-393532326561/-/format/webp/__2025-07-01__204030.png.webp" alt="Архитектурный маршрут">
+            </div>
+            <div class="route-stops">
+                <div class="route-stop">
+                    <div class="route-stop-number">1</div>
+                    <div class="route-stop-content">
+                        <h4>Метро Парк Культуры</h4>
+                        <p>«Парк культу́ры» — станция Московского метрополитена на Кольцевой линии.</p>
+                    </div>
+                </div>
+                <div class="route-stop">
+                    <div class="route-stop-number">2</div>
+                    <div class="route-stop-content">
+                        <h4>Остров в центре Москвы</h4>
+                        <p>Низменную местность напротив княжеской крепости при весенних наводнениях часто заливало.</p>
+                    </div>
+                </div>
+                <div class="route-stop">
+                    <div class="route-stop-number">3</div>
+                    <div class="route-stop-content">
+                        <h4>Метро Тверская</h4>
+                        <p>«Тверская» — станция Замоскворецкой линии Московского метрополитена. Расположена между станциями «Маяковская» и «Театральная».</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="route-content" id="nature">
+            <div class="route-map">
+                <img src="https://optim.tildacdn.pub/tild6634-3766-4363-b461-326237643262/-/format/webp/__2025-07-01__204553.png.webp" alt="Природный маршрут">
+            </div>
+            <div class="route-stops">
+                <div class="route-stop">
+                    <div class="route-stop-number">1</div>
+                    <div class="route-stop-content">
+                        <h4>Парк-Усадьба Царицыно</h4>
+                        <p>Царицыно — дворцово-парковый ансамбль на юге Москвы; заложен по повелению императрицы Екатерины II в 1776 году.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="more-videos">
+            <a href="#" class="btn btn-primary">Все маршруты</a>
+        </div>
+    </section>
+    
+    <!-- Секция с командой -->
+    <section class="team" id="team">
+        <div class="section-header">
+            <h2 class="section-title">Наша команда</h2>
+            <p class="section-subtitle">Люди, которые делают «Красивую Москву» такой, какая она есть</p>
+        </div>
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="team-photo">
+                    <img src="https://optim.tildacdn.pub/tild3464-3837-4362-a633-633361333366/-/format/webp/photo_2025-07-01_201.jpeg.webp" alt="Алексей Петров">
+                </div>
+                <div class="team-info">
+                    <h3 class="team-name">Гескин Роман</h3>
+                    <div class="team-role">Ведущий, автор</div>
+                    <p class="team-desc">Айтишник по образованию, фотограф по призванию. Знает о Москве больше, чем любой экскурсовод.</p>
+                </div>
+            </div>
+            <div class="team-member">
+                <div class="team-photo">
+                    <img src="https://optim.tildacdn.pub/tild3264-6365-4162-b131-633233626433/-/format/webp/photo_2025-07-01_205.jpeg.webp" alt="Мария Смирнова">
+                </div>
+                <div class="team-info">
+                    <h3 class="team-name">Коникова Нелли</h3>
+                    <div class="team-role">Оператор, монтажёр</div>
+                    <p class="team-desc">Превращает обычные кадры в кинематографические истории. Работала над каждым нашем проектом о Москве.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Секция с отзывами -->
+    <section class="facts" id="facts">
+        <div class="section-header">
+            <h2 class="section-title">Малоизвестные факты</h2>
+            <p class="section-subtitle">Удивительные детали, которые вы могли не знать о Москве</p>
+        </div>
+
+        <div class="facts-container">
+            <!-- Карточка с фактом (появляется при скролле) -->
+            <div class="fact-card animate-on-scroll">
+                <div class="fact-number">01</div>
+                <h3 class="fact-title">Подземные реки</h3>
+                <p class="fact-text">Под Москвой протекает более <strong>150 скрытых рек</strong>, заключённых в коллекторы. Неглинка, Пресня и другие когда-то видимые водные артерии теперь текут под землёй.</p>
+                <div class="fact-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Карточка с фактом -->
+            <div class="fact-card animate-on-scroll">
+                <div class="fact-number">02</div>
+                <h3 class="fact-title">Кремлёвские звёзды</h3>
+                <p class="fact-text">Рубиновые звёзды на башнях Кремля <strong>вращаются</strong> как флюгеры, поворачиваясь «лицом» к ветру. Каждая звезда весит около 1 тонны.</p>
+                <div class="fact-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Карточка с фактом -->
+            <div class="fact-card animate-on-scroll">
+                <div class="fact-number">03</div>
+                <h3 class="fact-title">Метро-призрак</h3>
+                <p class="fact-text">Станция «Советская» между «Театральной» и «Тверской» существует, но поезда там не останавливаются. Это <strong>засекреченный бункер</strong> времён холодной войны.</p>
+                <div class="fact-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 8v4l3 3"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="facts-cta">
+            <p>Хотите больше фактов? Подпишитесь на <a href="https://t.me/Weekproton" class="fact-link">Telegram-канал</a> с ежедневными историями!</p>
+            <button class="btn btn-outline" onclick="showSecretFact()">Показать секретный факт</button>
+        </div>
+    </section>
+    
+    <!-- Секция CTA -->
+    <section class="cta">
+        <div class="cta-container">
+            <h2 class="cta-title">Готовы исследовать Москву по-новому?</h2>
+            <p class="cta-text">Подпишитесь на наши обновления, чтобы первыми узнавать о новых выпусках и получать эксклюзивные материалы.</p>
+            <div class="cta-buttons">
+                <a href="https://t.me/Weekproton" class="btn btn-primary">Подписаться</a>
+                <a href="#videos" class="btn btn-outline">Смотреть выпуски</a>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-logo">The Weekly Proton Times</div>
+        <div class="footer-links">
+            <a href="index.html" class="footer-link">Главная</a>
+            <a href="archive.html" class="footer-link">Архив</a>
+            <a href="about.html" class="footer-link">О проекте</a>
+            <a href="error404.html" class="footer-link">Контакты</a>
+        </div>
+        <div class="social-links">
+            <a href="error404.html" class="social-link">VK</a>
+            <a href="https://t.me/Weekproton" class="social-link">TG</a>
+            <a href="error404.html" class="social-link">DZ</a>
+        </div>
+        <p class="copyright">© 2025 The Weekly Proton Times. Все права защищены.</p>
+    </footer>
+    
+    <!-- Модальное окно -->
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <div class="modal-body">
+                <h3 class="modal-title" id="modalTitle">Название видео</h3>
+                <div class="video-container">
+                    <iframe width="100%" height="500" src="" frameborder="0" allowfullscreen id="modalVideo"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Скрипты -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script>
+        // Инициализация слайдера отзывов
+        $('.testimonial-slider').slick({
+            centerMode: true,
+            centerPadding: '0',
+            slidesToShow: 1,
+            arrows: true,
+            prevArrow: '<button type="button" class="slick-prev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>',
+            nextArrow: '<button type="button" class="slick-next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>',
+            responsive: [
+                {
+                    breakpoint: 768,
+                    settings: {
+                        centerMode: false,
+                        arrows: false,
+                        dots: true
+                    }
+                }
+            ]
+        });
+        
+        // Табы маршрутов
+        const tabs = document.querySelectorAll('.route-tab');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                // Удаляем активный класс у всех табов и контента
+                tabs.forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.route-content').forEach(c => c.classList.remove('active'));
+                
+                // Добавляем активный класс текущему табу и соответствующему контенту
+                tab.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Плавная прокрутка
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Фиксация шапки при скролле
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Анимация при скролле
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (elementPosition < screenPosition) {
+                    element.classList.add('animated');
+                }
+            });
+        };
+        
+        window.addEventListener('scroll', animateOnScroll);
+        animateOnScroll(); // Инициализация при загрузке
+        
+        // Эффект курсора
+        const cursor = document.querySelector('.cursor-effect');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+        
+        // Пасхалка
+        const easterEgg = document.getElementById('easterEgg');
+        const secretMessage = document.getElementById('secretMessage');
+        
+        easterEgg.addEventListener('click', () => {
+            secretMessage.classList.toggle('show');
+        });
+        
+        // Скрытые пасхалки
+        const hiddenFeatures = document.querySelectorAll('.hidden-feature');
+        hiddenFeatures.forEach(feature => {
+            feature.addEventListener('click', () => {
+                createConfetti();
+            });
+        });
+        
+        // Создание конфетти
+        function createConfetti() {
+            const colors = ['#5e35b1', '#ff7043', '#00c853', '#ffab00', '#d50000'];
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = confetti.style.width;
+                confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+                document.body.appendChild(confetti);
+                
+                // Удаление конфетти после анимации
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+        
+        // Режим вечеринки (Ctrl+Shift+M)
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.shiftKey && e.key === 'M') {
+                document.body.classList.toggle('party-mode');
+                createConfetti();
+            }
+        });
+        
+        // Модальное окно для видео
+        const videoCards = document.querySelectorAll('.video-card');
+        const videoModal = document.getElementById('videoModal');
+        const modalClose = document.getElementById('modalClose');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalVideo = document.getElementById('modalVideo');
+        
+        videoCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const title = card.querySelector('.video-title').textContent;
+                modalTitle.textContent = title;
+                modalVideo.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1';
+                videoModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        modalClose.addEventListener('click', () => {
+            videoModal.classList.remove('active');
+            modalVideo.src = '';
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Закрытие модального окна при клике вне его
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal) {
+                videoModal.classList.remove('active');
+                modalVideo.src = '';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Создание звёздного фона
+        function createStars() {
+            const starsContainer = document.createElement('div');
+            starsContainer.style.position = 'fixed';
+            starsContainer.style.top = '0';
+            starsContainer.style.left = '0';
+            starsContainer.style.width = '100%';
+            starsContainer.style.height = '100%';
+            starsContainer.style.pointerEvents = 'none';
+            starsContainer.style.zIndex = '-1';
+            
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.position = 'absolute';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.backgroundColor = 'white';
+                star.style.borderRadius = '50%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                starsContainer.appendChild(star);
+            }
+            
+            document.body.appendChild(starsContainer);
+        }
+        
+        createStars();
+        
+        // Параллакс эффект
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            document.querySelectorAll('.parallax').forEach(el => {
+                const speed = parseFloat(el.getAttribute('data-speed')) || 0.1;
+                el.style.transform = `translate(${x * speed * 100}px, ${y * speed * 100}px)`;
+            });
+        });
+        
+        // Анимация при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 500);
+        });
+        
+        // Секретный факт (пасхалка)
+        function showSecretFact() {
+            const facts = [
+                "В Москве есть «дом-улей» — здание на улице Спиридоновка, 24/1 с 222 квартирами-сотами",
+                "Высота Останкинской башни — 540м — могла бы вместить 180-этажный небоскрёб",
+                "На ВДНХ фонтаны «Дружба народов» изначально назывались «Золотой сноп» и «Главный»",
+                "В недрах Третьяковки спрятана сталинская бронированная дверь в секретный бункер"
+            ];
+            
+            const randomFact = facts[Math.floor(Math.random() * facts.length)];
+            const notification = document.createElement('div');
+            
+            notification.className = 'secret-notification';
+            notification.innerHTML = `
+                <div class="secret-content">
+                    <h4>Секретный факт!</h4>
+                    <p>${randomFact}</p>
+                    <button onclick="this.parentElement.parentElement.remove()">×</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Анимация появления
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateY(0)';
+            }, 100);
+        }
+
+        // Стили для уведомления (добавить в <style>)
+        const style = document.createElement('style');
+        style.textContent = `
+            .secret-notification {
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                background: var(--darker);
+                border: 1px solid var(--primary);
+                border-radius: var(--border-radius-sm);
+                padding: 20px;
+                max-width: 300px;
+                box-shadow: var(--shadow-lg);
+                z-index: 1000;
+                opacity: 0;
+                transform: translateY(100px);
+                transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            }
+            
+            .secret-content {
+                position: relative;
+            }
+            
+            .secret-content h4 {
+                color: var(--primary-light);
+                margin-bottom: 10px;
+            }
+            
+            .secret-content p {
+                color: rgba(255,255,255,0.8);
+                line-height: 1.5;
+            }
+            
+            .secret-content button {
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                width: 25px;
+                height: 25px;
+                background: var(--error);
+                border: none;
+                border-radius: 50%;
+                color: white;
+                cursor: pointer;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
