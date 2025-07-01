@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Красивая Москва | The Weekly Proton Times</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0022bb;
+            --primary-light: #4895ef;
+            --secondary: #05006b;
+            --dark: #000000;
+            --light: #f8f9fa;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --gray: #6c757d;
+            --white: #ffffff;
+            
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+        }
+        
+        .header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 120px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            padding: 0 25px;
+        }
+
+        .nav {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .nav-link {
+            color: #555;
+            text-decoration: none;
+            font-weight: 300;
+            font-size: 0.95rem;
+            padding: 8px 12px;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+            flex: 1;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            color: #cb7eff;
+            background-color: rgba(203, 126, 255, 0.1);
+        }
+
+        .nav-link.active {
+            color: #cb7eff;
+            font-weight: 500;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px 40px;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 60vh;
+            min-height: 400px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: flex-end;
+        }
+        
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.3));
+            z-index: 2;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            padding: 3rem;
+            color: white;
+            width: 100%;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            max-width: 600px;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--white);
+            color: var(--white);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Video Grid */
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .video-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+        
+        .video-thumbnail {
+            position: relative;
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .video-card:hover .video-thumbnail img {
+            transform: scale(1.05);
+        }
+        
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .play-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--primary);
+        }
+        
+        .video-info {
+            padding: 1.5rem;
+        }
+        
+        .video-date {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--white);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .video-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+        
+        .video-desc {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            background: var(--light);
+            color: var(--dark);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tag.primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+        
+        /* About Section */
+        .about-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+        
+        .about-image {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            height: 400px;
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .about-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .about-text {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-link {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+        
+        .footer-link:hover {
+            opacity: 1;
+            color: var(--primary-light);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: var(--white);
+            transition: var(--transition);
+        }
+        
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: #000000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            border: none;
+        }
+        
+        .back-to-top.visible {
+            opacity: 0.8;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            opacity: 1;
+            background-color: #000000;
+            transform: translateY(-3px);
+        }
+        
+        .arrow-img {
+            width: 60%;
+            height: 60%;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .about-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-image {
+                height: 300px;
+                order: -1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 80px 15px 30px;
+            }
+            
+            .hero {
+                height: 50vh;
+                min-height: 350px;
+            }
+            
+            .hero-content {
+                padding: 2rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header {
+                top: 10px;
+                width: calc(100% - 20px);
+                height: 50px;
+                padding: 0 10px;
+                border-radius: 25px;
+            }
+
+            .nav {
+                overflow-x: auto;
+                padding-bottom: 5px;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            .nav::-webkit-scrollbar {
+                display: none;
+            }
+
+            .nav-link {
+                font-size: 0.8rem;
+                padding: 6px 8px;
+                min-width: max-content;
+                flex: none;
+                margin: 0 5px;
+            }
+
+            .nav-link:first-child {
+                margin-left: auto;
+            }
+            
+            .nav-link:last-child {
+                margin-right: auto;
+            }
+            
+            .hero {
+                height: 40vh;
+            }
+            
+            .hero-content {
+                padding: 1.5rem;
+            }
+        }
+        
+        .team-section {
+            margin-bottom: 4rem;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .team-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+        
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--primary-light);
+        }
+        
+        .team-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-role {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .team-desc {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .mission-section {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mission-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--primary);
+        }
+        
+        .mission-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .mission-text {
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .mission-section {
+                padding: 2rem 1.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading-container {
+            font-family: 'Times New Roman', serif;
+            text-align: center;
+            margin-top: 25%;
+            margin-bottom: 25%;
+        }
+
+        .title {
+            font-family: 'Times New Roman', serif;
+            font-size: 4rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .title-word {
+            font-family: 'Times New Roman', serif;
+            opacity: 0;
+            transform: translateY(20px);
+            filter: blur(5px);
+            animation: fadeIn 0.8s forwards;
+        }
+        
+        .title-word:nth-child(1) { animation-delay: 0.2s; }
+        .title-word:nth-child(2) { animation-delay: 0.6s; }
+        .title-word:nth-child(3) { animation-delay: 1.0s; }
+        
+        @keyframes fadeIn {
+            to {
+                font-family: 'Times New Roman', serif;
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+        
+        .subtitle {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.2rem;
+            opacity: 0;
+            animation: fadeInSubtitle 1s forwards;
+            animation-delay: 1.8s;
+        }
+        
+        @keyframes fadeInSubtitle {
+            to {
+                opacity: 0.7;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="error404.html" class="nav-link">Газета</a>
+            <a href="archive.html" class="nav-link">Новости</a>
+            <a href="beautiful-moscow.html" class="nav-link">Красивая Москва</a>
+            <a href="Viktoria.html" class="nav-link">Виктория</a>
+            <a href="index.html" class="nav-link">Главная</a>
+        </nav>
+    </header>
+
+    <div class="loading-container">
+        <div class="title">
+            <span class="title-word">The</span>
+            <span class="title-word">Weekly</span>
+            <span class="title-word">Proton</span>
+            <span class="title-word">Times</span>
+        </div>
+        <p class="subtitle">Обновление каждую неделю...</p>
+    </div>
+
+    <script>
+        setTimeout(() => {
+        }, 3000);
+    </script>
+    
+    <div class="content">
+        <section class="hero">
+            <img src="https://optim.tildacdn.pub/tild6166-6463-4361-a232-623234306164/-/format/webp/photo_2025-07-01_163.jpeg.webp" alt="О нас" class="hero-image">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 class="hero-title">The Weekly Proton Times</h1>
+                <p class="hero-subtitle">Кто мы и зачем снимаем и показываем вам новости</p>
+            </div>
+        </section>
+        
+        <section class="mission-section">
+            <h2 class="mission-title">Наша миссия</h2>
+            <p class="mission-text">Мы верим, что наш канал — это не просто столица новости, а живой организм с уникальной душой. Наш проект создан, чтобы показать, что новости могут быть не только скучными но и увлекательными.</p>
+            <p class="mission-text">Каждая новость или выпуск — это не просто текст или экскурсия, а маленький рассказ, который раскрывает новые грани знакомых мест и знакомит с неизведанными частями нашей жизни.</p>
+        </section>
+        
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">1000+</div>
+                <div class="stat-label">Новостей</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Чеолвека в команде</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">Более 100</div>
+                <div class="stat-label">Зрителей</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2022</div>
+                <div class="stat-label">Год основания</div>
+            </div>
+        </section>
+        
+        <section class="team-section">
+            <h2 class="section-title">Наша команда</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <img src="https://optim.tildacdn.pub/tild3661-3236-4535-b932-396564663538/-/format/webp/photo_2025-07-01_165.jpeg.webp" alt="Алексей Петров" class="team-avatar">
+                    <h3 class="team-name">Гескин Роман</h3>
+                    <div class="team-role">Главный редактор</div>
+                    <p class="team-desc">Айтишник по образованию, фотограф по призванию. Знает о Москве больше, чем любой экскурсовод.</p>
+                    <a href="#" class="btn btn-outline" style="color: var(--primary); border-color: var(--primary);">Написать</a>
+                </div>
+                
+                <div class="team-card">
+                    <img src="https://optim.tildacdn.pub/tild3539-3634-4930-a435-613537306531/-/format/webp/photo_2025-07-01_165.jpeg.webp" alt="Мария Смирнова" class="team-avatar">
+                    <h3 class="team-name">Чиков Виктор</h3>
+                    <div class="team-role">Оператор и монтажёр</div>
+                    <p class="team-desc">Превращает обычные кадры в кинематографические истории. Работал над нашими многими проектами.</p>
+                    <a href="#" class="btn btn-outline" style="color: var(--primary); border-color: var(--primary);">Написать</a>
+                </div>
+                
+                <div class="team-card">
+                    <img src="https://optim.tildacdn.pub/tild3936-3362-4730-a531-323934643533/-/format/webp/photo_2025-07-01_165.jpeg.webp" alt="Иван Козлов" class="team-avatar">
+                    <h3 class="team-name">Терников Станислав</h3>
+                    <div class="team-role">Редактор и корреспондент</div>
+                    <p class="team-desc">Находит самые интересные факты. Снимает прекрасные кадры для вас, чтобы вы всегда восхищались.</p>
+                    <a href="#" class="btn btn-outline" style="color: var(--primary); border-color: var(--primary);">Написать</a>
+                </div>
+                
+                <div class="team-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/56/56745.png" alt="Иван Козлов" class="team-avatar">
+                    <h3 class="team-name">Хочешь к нам?</h3>
+                    <div class="team-role">???????? ????????</div>
+                    <p class="team-desc">Напиши кому-то из нас на почту или на почту нашего телеграм-канала, и мы свяжемся с вами!</p>
+                    <a href="#" class="btn btn-outline" style="color: var(--light); border-color: var(--primary); background-color: var(--primary);">Написать в канал</a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="about-section">
+            <div class="about-image">
+                <img src="https://optim.tildacdn.pub/tild6530-3834-4430-b439-313662303631/-/format/webp/__2025-07-01__172059.png.webp" alt="История проекта">
+            </div>
+            <div class="about-content">
+                <h2 class="about-title">Как всё начиналось</h2>
+                <p class="about-text">Канал The Weekly Proton Times родился в 2022 году как инициатива группы друзей. Первое название телеграм-канала было: "Weekly Proton", мы решили не вставлять номер и букву класса, чтобы не менять название.</p>
+                <p class="about-text">Сегодня у The Weekly Proton Times появился новый медиапроект "Красивая Москва" и запустили первого AI ведущего новостей, и сегодня мы стремимся только развиваться и расти, и поэтому мы запустили этот сайт.</p>
+                <a href="archive.html" class="btn">Смотреть первые новости</a>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="footer-logo">The Weekly Proton Times</div>
+        <div class="footer-links">
+            <a href="index.html" class="footer-link">Главная</a>
+            <a href="archive.html" class="footer-link">Архив</a>
+            <a href="about.html" class="footer-link">О проекте</a>
+            <a href="#" class="footer-link">Контакты</a>
+        </div>
+        <div class="social-links">
+            <a href="#" class="social-link">VK</a>
+            <a href="#" class="social-link">TG</a>
+            <a href="#" class="social-link">YT</a>
+        </div>
+        <p class="copyright">© 2025 The Weekly Proton Times. Все права защищены.</p>
+    </footer>
+
+    <button class="back-to-top" onclick="scrollToTop()">
+        <img src="https://grizly.club/uploads/posts/2023-08/1691487060_grizly-club-p-kartinki-strelochka-belaya-bez-fona-56.png" 
+             alt="Вверх" 
+             class="arrow-img">
+    </button>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            var backToTopButton = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+        
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
