@@ -1530,9 +1530,11 @@
         <p class="copyright">© 2025 The Weekly Proton Times. Все права защищены.</p>
     </footer>
 
-    <button class="back-to-top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+    <div class="back-to-top" id="backToTop">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 15l-6-6-6 6"/>
+        </svg>
+    </div>
     
     <script>
         const animateOnScroll = () => {
@@ -1690,6 +1692,29 @@
         createParticles();
         updateSlider();
         animateOnScroll();
+
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('active');
+            } else {
+                backToTop.classList.remove('active');
+            }
+        });
+        
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('active');
+            }
+        });
     </script>
 </body>
 </html>
