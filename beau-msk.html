@@ -146,9 +146,9 @@
             transform: translateX(-50%);
             width: calc(100% - 40px);
             max-width: 800px;
-            background-color: #23233786;
+            background-color: rgba(255, 255, 255, 0.5);
             border-radius: 120px; /* Сильно закругленные углы */
-            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             z-index: 1000;
@@ -156,17 +156,8 @@
             display: flex;
             align-items: center;
             padding: 0 25px;
-            transition: var(--transition);
         }
 
-        .header.scrolled {
-            top: 10px;
-            height: 40px;
-            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
-            background-color: #232337d0;
-        }
-
-        /* Навигация на всю ширину */
         .nav {
             display: flex;
             width: 100%;
@@ -174,7 +165,7 @@
         }
 
         .nav-link {
-            color: #ffffff;
+            color: #555;
             text-decoration: none;
             font-weight: 300;
             font-size: 0.95rem;
@@ -184,19 +175,6 @@
             flex: 1;
             text-align: center;
             white-space: nowrap;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--primary-light);
-            transition: var(--transition);
         }
 
         .nav-link:hover {
@@ -204,14 +182,42 @@
             background-color: rgba(203, 126, 255, 0.1);
         }
 
-        .nav-link:hover::before {
-            width: 100%;
-        }
-
         /* Активный пункт меню */
         .nav-link.active {
             color: #cb7eff;
             font-weight: 500;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .header {
+                width: calc(100% - 20px);
+                height: 50px;
+                padding: 0 15px;
+                border-radius: 60px;
+            }
+
+            .nav {
+                overflow-x: auto;
+                padding-bottom: 5px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .nav-link {
+                font-size: 0.85rem;
+                padding: 6px 8px;
+                min-width: max-content;
+            }
+
+            /* Скрываем scrollbar в Firefox */
+            .nav {
+                scrollbar-width: none;
+            }
+            
+            /* Скрываем scrollbar в Chrome/Safari */
+            .nav::-webkit-scrollbar {
+                display: none;
+            }
         }
         
         /* Герой-секция */
